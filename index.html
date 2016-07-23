@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>个性旋转按钮</title>	
+	<style>
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		ul{
+			list-style: none;
+		}
+		#container{
+			position: fixed;
+			bottom: 0;			
+			width: 50px;
+			height: 50px;
+			right: 0;
+			margin-right: 20px;
+			margin-bottom: 20px;
+		}
+		#home{
+			position: absolute;
+			width: 50px;
+			height: 50px;
+			left: 0;
+			top: 0;
+			background: url(img/home.png);
+			-webkit-transition:all 1s ease;
+			z-index: 1;
+		}
+		#menu{
+			width: 50px;
+			height: 50px;
+		}
+		#menu li{
+			width: 50px;
+			height: 50px;	
+			left: 0;
+			top: 0;
+			position: absolute;
+			-webkit-transition:all 0.6s ease;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="home"></div>
+		<ul id="menu">
+			<li><img src="img/close.png" alt=""></li>
+			<li><img src="img/refresh.png" alt=""></li>
+			<li><img src="img/prev.png" alt=""></li>
+			<li><img src="img/open.png" alt=""></li>
+			<li><img src="img/full.png" alt=""></li>
+		</ul>
+	</div>
+	<script>
+		(function(){
+			var oHome = document.getElementById('home');
+			var oMenu = document.getElementById('menu');
+			var aLi = oMenu.children;
+			var bOpen = true;
+			oHome.onclick = function(){
+				if (bOpen) {
+					oHome.style.webkitTransform = 'rotate(-360deg)'
+					var i = 0;
+					var timer = setInterval(function(){
+						aLi[i].deg = (Math.PI/180)*i*90/4;
+						var x = -Math.sin(aLi[i].deg)*150;
+						var y = -Math.cos(aLi[i].deg)*150;
+						aLi[i].style.left = x + 'px';
+						aLi[i].style.top = y + 'px';
+						aLi[i].style.webkitTransform = 'rotate(-360deg)';
+						i++;
+						if (i == aLi.length) {
+							clearInterval(timer);
+						}
+					},100);
+
+				}else{
+					oHome.style.webkitTransform = 'rotate(360deg)'
+					var i = aLi.length-1;
+					var timer = setInterval(function(){
+						aLi[i].style.left = 0;
+						aLi[i].style.top = 0;
+						aLi[i].style.webkitTransform = 'rotate(360deg)';
+						i--;
+						if (i == -1) {
+							clearInterval(timer);
+						}
+					},100);
+				}
+				bOpen = !bOpen;
+			}			
+		})();
+	</script>
+</body>
+</html>
